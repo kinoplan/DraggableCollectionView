@@ -54,10 +54,16 @@ typedef NS_ENUM(NSInteger, _ScrollingDirection) {
                              context:&kObservingCollectionViewLayoutContext];
         _scrollingEdgeInsets = UIEdgeInsetsMake(50.0f, 50.0f, 50.0f, 50.0f);
         _scrollingSpeed = 300.f;
-        
-        _longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc]
-                                       initWithTarget:self
-                                       action:@selector(handleLongPressGesture:)];
+
+        _longPressGestureRecognizer = ({
+            UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                     action:@selector(handleLongPressGesture:)];
+
+            recognizer.minimumPressDuration = 0.25;
+
+            recognizer;
+        });
+
         [_collectionView addGestureRecognizer:_longPressGestureRecognizer];
         
         _panPressGestureRecognizer = [[UIPanGestureRecognizer alloc]
